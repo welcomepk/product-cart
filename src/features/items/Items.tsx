@@ -77,7 +77,7 @@ const Item = ({ item }: { item: Desert }) => {
                                             cartQuantity: item.cartQuantity ? item.cartQuantity - 1 : 0
                                         }))
                                     }}
-                                    className="border-2 border-rose-100 rounded-full w-[18px] h-[18px] p-[2px] hover:cursor-pointer " src={DecrementIcon} alt="increment icon" />
+                                    className={`border-2 border-rose-100 rounded-full w-[18px] h-[18px] p-[2px] hover:cursor-pointer}`} src={DecrementIcon} alt="increment icon" />
                                 <span>{item.cartQuantity ? item.cartQuantity : 0}</span>
                                 <img
                                     onClick={() => {
@@ -99,10 +99,10 @@ const Item = ({ item }: { item: Desert }) => {
             </div>
 
             {/* item desc */}
-            <div className="mt-6 grid gap-1">
-                <h4 className="font-1 text-rose-500">{item.category}</h4>
-                <h2 className="font-2 text-lg text-rose">{item.name}</h2>
-                <h2 className="font-2 text-lg text-red">${item.price}</h2>
+            <div className="mt-8 font-1 grid">
+                <h4 className=" text-rose-500">{item.category}</h4>
+                <h2 className=" text-lg text-rose">{item.name}</h2>
+                <h2 className=" text-lg text-red">${item.price}</h2>
             </div>
         </div>
     )

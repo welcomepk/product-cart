@@ -2,9 +2,13 @@ import Items from './features/items/Items'
 import Cart from './features/cart/Cart'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <div className='font-rht bg-rose-50 grid md:grid-cols-12 min-h-screen p-10 gap-4 xl:gap-16' >
-    {children}
-  </div>
+  return (
+    <div className='bg-rose-50'>
+      <div className='font-rht grid md:grid-cols-12 min-h-screen p-4 sm:p-6 md:p-10 max-w-[1440px] mx-auto gap-4 xl:gap-16' >
+        {children}
+      </div>
+    </div>
+  )
 }
 function App() {
   return (
