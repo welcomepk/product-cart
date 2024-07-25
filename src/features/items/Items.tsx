@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../app/store"
+
 import { Desert } from "../../lib/types"
-
-
+import { addToCart } from "../cart/cartSlice";
 import baklavaDesktop from '../../assets/images/image-baklava-desktop.jpg';
 import brownieDesktop from '../../assets/images/image-brownie-desktop.jpg';
 import macaronDesktop from '../../assets/images/image-macaron-desktop.jpg';
@@ -50,12 +50,15 @@ const imageMap: { [key: string]: string } = {
 
 const Item = ({ item }: { item: Desert }) => {
     // Function to require images dynamically
-
+    const dispatch = useDispatch()
     return (
         <div className=" overflow-hidden">
             <div className="border-2 border-transparent rounded-lg hover:border-red relative h-[2/3] ">
                 <img className="w-full rounded-lg  object-cover object-center" src={imageMap[item.image.desktop]} alt={item.name} />
-                <button className="flex justify-between gap-1 w-[75%] max-w-[150px] items-center border shadow-md absolute bg-white py-3 bottom-[-24px] rounded-full    left-[50%] translate-x-[-50%]">
+                <button
+                    onClick={() => dispatch(addToCart({ id: item.id, quantity: 1 }))}
+                    className="flex justify-between gap-1 w-[75%] max-w-[150px] items-center border shadow-md absolute bg-white py-3 bottom-[-24px] rounded-full    left-[50%] translate-x-[-50%]"
+                >
                     <img className="pl-4" src={CartIcon} alt="cart icon" />
                     <span className=" text-rose font-1 text-nowrap mr-4">Add to Cart</span>
                 </button>

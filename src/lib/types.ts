@@ -7,8 +7,14 @@ export type Image = {
 }
 
 export type Desert = {
+    id: string,
     image: Image,
     name: string,
     category: string,
     price: number
+}
+
+export interface CartItem {
+    id: string,
+    quantity: number
 }

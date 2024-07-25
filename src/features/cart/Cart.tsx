@@ -1,18 +1,24 @@
 
-import React from 'react'
-
+import { useSelector } from 'react-redux'
+import { RootState } from '../../app/store'
+import IconCarbonNeutral from "../../assets/images/icon-carbon-neutral.svg"
+import IconRemove from "../../assets/images/icon-remove-item.svg"
 interface Item {
     name: string,
     price: number,
     count: number
 }
 const CloseIcon = () => {
-    return <span>x</span>
+    return <img
+        className='border border-rose-300 hover:cursor-pointer hover:border-rose-400  p-[2px] rounded-full'
+        src={IconRemove}
+        alt="remove icon"
+    />
 }
 
 const CartItem = ({ item }: { item: Item }) => {
     return (
-        <div className='my-4 flex h-fit gap-2 items-center justify-between border-b border-rose-100'>
+        <div className=' flex h-fit gap-2 items-center justify-between border-b border-rose-100'>
             <div className=''>
                 <h3 className='mb-1'>{item.name}</h3>
                 <div className='mb-3'>
@@ -26,6 +32,9 @@ const CartItem = ({ item }: { item: Item }) => {
     )
 }
 const CartItems = () => {
+
+    const cartItems = useSelector((state: RootState) => state.cart)
+    console.log(cartItems);
 
     return (
         <>
@@ -68,6 +77,13 @@ const Cart = () => {
                 <span className='font-2 text-xl'>$46.50</span>
             </div>
 
+            {/* other info */}
+            <div className='bg-rose-50  rounded-lg 0 text-rose flex items-center justify-center gap-2 p-4'>
+                <img src={IconCarbonNeutral} alt="carbon newtral icon" />
+                <span>This is <b>carbon-newtral</b> delivery</span>
+            </div>
+            {/* confirm button */}
+            <button className='bg-red text-rose-50 p-4 font-2 rounded-full' >Confirm Order</button>
         </div>
     )
 }
