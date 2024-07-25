@@ -1,6 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit'
-import { Desert, CartItem } from "../../lib/types"
+import { CartItem } from "../../lib/types"
 import { PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: CartItem[] = []
@@ -11,10 +11,23 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart(state, action: PayloadAction<CartItem>) {
-            state.unshift(action.payload)
+            const existingItem = state.find(item => item.id === action.payload.id)
+            if (existingItem) {
+                existingItem.quantity += action.payload.quantity
+            } else {
+                state.unshift(action.payload)
+            }
+        },
+        decrementItemFromCart(state, action: PayloadAction<CartItem>) {
+            const existingItem = state.find(item => item.id === action.payload.id)
+            if (existingItem && existingItem.quantity > 1) {
+                existingItem.quantity -= 1
+            } else {
+                return state.filter(item => item.id !== action.payload.id)
+            }
         }
     }
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, decrementItemFromCart } = cartSlice.actions
 export default cartSlice.reducer

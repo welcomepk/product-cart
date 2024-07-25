@@ -11,10 +11,10 @@ export type Desert = {
     image: Image,
     name: string,
     category: string,
-    price: number
+    price: number,
+    cartQuantity?: number
 }
 
-export interface CartItem {
-    id: string,
+export interface CartItem extends Desert {
     quantity: number
 }

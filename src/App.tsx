@@ -11,7 +11,7 @@ function App() {
     <Layout>
       <div className=" md:col-span-8">
         <h1 className='font-bold text-xl mb-4'>Deserts</h1>
-        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 min-h-[400px]'>
+        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 xl:gap-6 min-h-[400px]'>
           <Items />
         </div>
       </div>
