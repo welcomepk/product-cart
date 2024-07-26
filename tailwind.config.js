@@ -10,7 +10,10 @@ export default {
         transparent: 'transparent',
         black: '#000',
         white: '#fff',
-        red: 'hsl(14, 86%, 42%)',
+        red: {
+          DEFAULT: 'hsl(14, 86%, 42%)',
+          dark: '#a92b04'
+        },
         green: 'hsl(159, 69%, 38%)',
         rose: {
           DEFAULT: 'hsl(14, 65%, 9%)',

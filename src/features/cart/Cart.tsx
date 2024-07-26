@@ -1,80 +1,60 @@
-
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
 import IconCarbonNeutral from "../../assets/images/icon-carbon-neutral.svg"
-import IconRemove from "../../assets/images/icon-remove-item.svg"
 import Illustrationemptycart from "../../assets/images/illustration-empty-cart.svg"
+import CartItems from './CartItems'
+import RightIcon from "../../assets/images/icon-order-confirmed.svg"
 
-import { CartItem as CartItemType } from '../../lib/types'
-import { decrementItemFromCart, removeFromCart } from './cartSlice'
-
-interface Item {
-    id: string,
-    name: string,
-    price: number,
-    count: number
-}
-const CloseIcon = ({ removeCart }: { removeCart: () => void }) => {
-
-    return <img
-        onClick={removeCart}
-        className='border border-rose-300 hover:cursor-pointer hover:border-rose-400  p-[2px] rounded-full'
-        src={IconRemove}
-        alt="remove icon"
-    />
+const RedButton = ({ onClick, text }: { text: string, onClick: () => void }) => {
+    return <button onClick={onClick} className='bg-red hover:bg-red-dark focus:bg-red-dark focus:ring-red-dark ring-offset-2 focus:ring-2  transition-all text-rose-50 px-4 py-3 font-1 rounded-full' >{text}</button>
 }
 
-const CartItem = ({ item }: { item: Item }) => {
-    const dispatch = useDispatch()
-    const removeCart = () => {
-        dispatch(removeFromCart({ id: item.id }))
-        dispatch(decrementItemFromCart({
-            ...item,
-            quantity: 0
-        }))
-    }
+export function Modal({ onClose }: { onClose: () => void }) {
+    const cartItems = useSelector((state: RootState) => state.cart)
+    console.log(cartItems);
+
     return (
-        <div className=' flex h-fit gap-2 items-center justify-between border-b border-rose-100'>
-            <div className=''>
-                <h3 className='mb-1'>{item.name}</h3>
-                <div className='mb-3'>
-                    <span className='text-red inline-block font-2  mr-4'>{item.count}x</span>
-                    <span className='text-rose-500'>@ ${item.price}</span>
-                    <span className='text-rose-900 ml-1 inline-block'>${item.price * item.count}</span>
+        <div className="fixed z-10 top-0 bg-black bg-opacity-50 left-0 right-0 bottom-0 p-4 grid place-items-center">
+            <div className='bg-rose-50 min-w-[300px] rounded-lg p-6 grid gap-6 text-rose font-rht'>
+                <img className='h-10 w-10' src={RightIcon} alt="confirmed icon" />
+                <div>
+                    <h2 className='text-2xl'>Order Confirmed</h2>
+                    <p className='text-rose-500 '>We hope you enjy your food!</p>
                 </div>
+                <div>
+                    {
+                        cartItems.map(item => (
+                            <h1>{item.name}</h1>
+                        ))
+                    }
+                </div>
+                <RedButton onClick={onClose} text='Start New Order' />
             </div>
-            <CloseIcon removeCart={removeCart} />
         </div>
-    )
+    );
 }
-const CartItems = ({ cartItems }: { cartItems: CartItemType[] }) => {
 
-    return (
-        <>
-            {
-                cartItems.map(item => <CartItem key={item.id} item={{
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                    count: item.quantity
-                }} />)
-            }
-        </>
-    )
-}
 const Cart = () => {
     const cartItems = useSelector((state: RootState) => state.cart)
     const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0)
+    const [showModal, setShowModal] = useState(false);
+    const confirmOrder = () => {
+        setShowModal(true)
+    }
     return (
         <div className='grid gap-4 bg-white px-6 pt-8 pb-10 rounded-2xl'>
+            {showModal && createPortal(
+                <Modal onClose={() => setShowModal(false)} />,
+                document.body
+            )}
 
-            {/* title */}
             <h1 className='text-red font-2 text-xl font-rht' >Your Cart ({cartItems.length})</h1>
-
-            {/* cart items */}
             {
                 cartItems.length > 0
                     ? <>
+
                         <CartItems cartItems={cartItems} />
 
                         {/* total */}
@@ -88,8 +68,9 @@ const Cart = () => {
                             <img src={IconCarbonNeutral} alt="carbon newtral icon" />
                             <span>This is <b>carbon-newtral</b> delivery</span>
                         </div>
+
                         {/* confirm button */}
-                        <button className='bg-red text-rose-50 p-4 font-2 rounded-full' >Confirm Order</button>
+                        <RedButton onClick={confirmOrder} text='Confirm Order' />
                     </>
                     : <div className='mx-auto mt-6'>
                         <img className='mx-auto' src={Illustrationemptycart} alt="Illustration empty cart" />
