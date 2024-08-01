@@ -35,7 +35,7 @@ const CartItem = ({ item }: { item: Item }) => {
         }))
     }
     return (
-        <div className=' flex h-fit gap-2 items-center justify-between border-b border-rose-100'>
+        <div className=' flex h-fit gap-2 items-center pt-3 px-3 justify-between border-b border-rose-100'>
             <div className=''>
                 <h3 className='mb-1'>{item.name}</h3>
                 <div className='mb-3'>

@@ -14,7 +14,7 @@ export default function Modal({
   console.log(cartItems);
 
   return (
-    <div className="fixed z-10 top-0 bg-black bg-opacity-50 left-0 right-0 bottom-0 p-4 grid place-items-center">
+    <div className="fixed z-50 top-0 bg-black bg-opacity-50 left-0 right-0 bottom-0 p-4 grid place-items-center">
       <div className="bg-white min-w-[300px] rounded-lg p-6 grid gap-6 text-rose font-rht">
         <img className="h-10 w-10" src={RightIcon} alt="confirmed icon" />
         <div>

@@ -8,9 +8,12 @@ import CartItems from "./CartItems";
 import Modal from "./Modal";
 import RedButton from "../../components/RedButton";
 import imageMap from "../../lib/image-map";
+import { IoCloseSharp } from "react-icons/io5";
 
-const Cart = () => {
+const Cart = ({ setCartOpen }: { cartOpen?: boolean, setCartOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+
   const cartItems = useSelector((state: RootState) => state.cart);
+
   const total = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -21,7 +24,7 @@ const Cart = () => {
     setShowModal(true);
   };
 
-  const renderCartItems = () => {
+  const renderCartModalItems = () => {
     return (
       <div className="bg-rose-50 p-6 text-rose">
         <ul className="list-none pb-6 rounded">
@@ -56,11 +59,14 @@ const Cart = () => {
   };
 
   return (
-    <div className="grid shadow-sm gap-4 bg-white px-6 pt-8 pb-10 rounded-2xl max-h-2/3 overflow-y-auto">
+    <div className="grid shadow-sm relative gap-4 bg-white px-6 pt-8  pb-10 rounded-2xl items-start content-center">
+      <button className=" border-2 hover:border-black transition-all rounded-full p-[2px] absolute right-[10px] top-[10px]" onClick={() => setCartOpen(false)}>
+        <IoCloseSharp fontSize="22px" />
+      </button>
       {showModal &&
         createPortal(
           <Modal
-            render={renderCartItems}
+            render={renderCartModalItems}
             onClose={() => setShowModal(false)}
           />,
           document.body
@@ -71,7 +77,9 @@ const Cart = () => {
       </h1>
       {cartItems.length > 0 ? (
         <>
-          <CartItems cartItems={cartItems} />
+          <div className="max-h-[600px] overflow-y-auto">
+            <CartItems cartItems={cartItems} />
+          </div>
 
           {/* total */}
           <div className="text-rose-900 flex items-center justify-between">
@@ -88,7 +96,7 @@ const Cart = () => {
           </div>
 
           {/* confirm button */}
-          <RedButton onClick={confirmOrder} text="Confirm Order" />
+          <RedButton onClick={confirmOrder} text="Confirm Order" className="h-fit" />
         </>
       ) : (
         <div className="mx-auto mt-6">
