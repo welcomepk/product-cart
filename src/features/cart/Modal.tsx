@@ -21,7 +21,7 @@ export default function Modal({
           <h2 className="text-2xl">Order Confirmed</h2>
           <p className="text-rose-500 ">We hope you enjoy your food!</p>
         </div>
-        <div>{render()}</div>
+        <div className="max-h-[40vh] overflow-y-auto">{render()}</div>
         <RedButton onClick={onClose} text="Start New Order" />
       </div>
     </div>
